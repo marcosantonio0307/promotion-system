@@ -1,5 +1,13 @@
 <h3>Registrar uma Promoção</h3>
 
+<% if @promotion.errors.any? %>
+  <ul>
+    <% @promotion.errors.full_messages.each do |error| %>
+      <li><%= error %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= form_with model: @promotion do |f| %>
   <div>
   	<%= f.label :name, 'Nome' %>

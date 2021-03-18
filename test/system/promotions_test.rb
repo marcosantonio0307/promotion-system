@@ -95,4 +95,28 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text '90'
     assert_link 'Voltar'
   end
+
+  test 'create and attributes cannot be blank' do
+    visit root_path
+    click_on 'Promoções'
+    click_on 'Registrar uma promoção'
+    click_on 'Criar promoção'
+
+    assert_text 'não pode ficar em branco', count: 5
+  end
+
+  test 'create and code must be unique' do
+    Promotion.create!(name: 'Natal', description: 'Promoção de Natal',
+                      code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
+                      expiration_date: '22/12/2033')
+
+    visit root_path
+    click_on 'Promoções'
+    click_on 'Registrar uma promoção'
+    fill_in 'Código', with: 'NATAL10'
+    fill_in 'Nome', with: 'Natal'
+    click_on 'Criar promoção'
+
+    assert_text 'deve ser único', count: 2
+  end
 end

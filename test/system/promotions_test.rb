@@ -119,4 +119,103 @@ class PromotionsTest < ApplicationSystemTestCase
 
     assert_text 'deve ser único', count: 2
   end
+
+  test 'generate coupon for promotion' do
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    visit promotion_path(promotion)
+    click_on 'Gerar cupons'
+
+    assert_text 'Cupons gerados com sucesso'
+    assert_no_link 'Gerar cupons'
+    assert_no_text 'NATAL10-0000'
+    assert_text 'NATAL10-0001'
+    assert_text 'NATAL10-0002'
+    assert_text 'NATAL10-0100'
+    assert_no_text 'NATAL10-0101'
+  end
+
+  test 'edit promotion with correct attributes' do
+    Promotion.create!(name: 'Cyber Monday',
+                      description: 'Promoção de Natal',
+                      code: 'CYBER15', discount_rate: 10,
+                      coupon_quantity: 100,
+                      expiration_date: '22/12/2033')
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    visit promotion_path(promotion)
+    assert_link 'Gerar cupons'
+    click_on 'Editar promoção'
+    fill_in 'Descrição', with: 'Promoção Natalina'
+    fill_in 'Quantidade de cupons', with: 80
+    click_on 'Salvar'
+
+    assert_text 'Promoção editada com sucesso'
+    assert_text 'Promoção Natalina'
+    assert_text '80'
+  end
+
+  test 'edit promotion and code must be unique' do
+    Promotion.create!(name: 'Cyber Monday',
+                      description: 'Promoção de Natal',
+                      code: 'CYBER15', discount_rate: 10,
+                      coupon_quantity: 100,
+                      expiration_date: '22/12/2033')
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    visit promotion_path(promotion)
+    assert_link 'Gerar cupons'
+    click_on 'Editar promoção'
+    fill_in 'Nome', with: 'Cyber Monday'
+    fill_in 'Código', with: 'CYBER15'
+    click_on 'Salvar'
+
+    assert_text 'deve ser único', count: 2
+  end
+
+  test 'edit promotion and attributes cannot blank' do
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    visit promotion_path(promotion)
+    assert_link 'Gerar cupons'
+    click_on 'Editar promoção'
+    fill_in 'Nome', with: ''
+    fill_in 'Código', with: ''
+    fill_in 'Desconto', with: ''
+    fill_in 'Quantidade de cupons', with: ''
+    fill_in 'Data de término', with: ''
+    click_on 'Salvar'
+
+    assert_text 'não pode ficar em branco', count: 5
+  end
+
+  test 'edit promotion after generate coupons' do
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    visit promotion_path(promotion)
+    click_on 'Gerar cupons'
+    click_on 'Editar promoção'
+
+    assert_text 'Não é possivel editar promoção com cupons gerados'
+  end
 end

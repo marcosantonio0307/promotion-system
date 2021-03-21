@@ -1,4 +1,13 @@
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
+<% end %>
+
 <%= link_to 'Voltar', promotions_path %>
+<%= link_to 'Editar promoção', edit_promotion_path(@promotion) %>
+<% if @promotion.coupons.empty? %>
+  <%= link_to 'Gerar cupons', generate_coupons_promotion_path(@promotion), method: :post %>
+<% end %>
+
 <div>
   <p><%= @promotion.name %></p>
   <dl>
@@ -12,5 +21,14 @@
   	<dd><%= @promotion.expiration_date.strftime("%d/%m/%Y") %></dd>
   	<dt>Quantidade</dt>
   	<dd><%= @promotion.coupon_quantity %></dd>
+  </dl>
+</div>
+
+<div>
+  <dl>
+    <dt>Cupons:</dt>
+    <% @promotion.coupons.each do |coupon| %>
+      <dd><%= coupon.code %></dd>
+    <% end %>
   </dl>
 </div>

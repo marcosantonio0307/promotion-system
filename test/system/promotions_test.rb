@@ -218,4 +218,18 @@ class PromotionsTest < ApplicationSystemTestCase
 
     assert_text 'Não é possivel editar promoção com cupons gerados'
   end
+
+  test 'delete promotion' do
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    visit promotion_path(promotion)
+    click_on 'Apagar promoção'
+    
+    assert_text 'Promoção apagada com sucesso'
+    assert_no_link 'Natal'
+  end
 end

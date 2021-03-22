@@ -1,3 +1,8 @@
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
+<% end %>
+
+
 <%=  link_to 'Voltar', root_path %>
 <%= link_to 'Registrar uma promoção', new_promotion_path %>
 

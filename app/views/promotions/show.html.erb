@@ -7,6 +7,7 @@
 <% if @promotion.coupons.empty? %>
   <%= link_to 'Gerar cupons', generate_coupons_promotion_path(@promotion), method: :post %>
 <% end %>
+<%= link_to 'Apagar promoção', @promotion, method: :delete %>
 
 <div>
   <p><%= @promotion.name %></p>

@@ -1,5 +1,5 @@
 class PromotionsController < ApplicationController
-  before_action :set_promotion, only:[:generate_coupons, :show, :edit, :update]
+  before_action :set_promotion, only:[:generate_coupons, :show, :edit, :update, :destroy]
   before_action :promotion_params, only:[:create, :update]
   def index
   	@promotions = Promotion.all
@@ -42,6 +42,12 @@ class PromotionsController < ApplicationController
   end
 
   def show
+  end
+
+  def destroy
+  	@promotion.destroy!
+  	flash[:notice] = 'Promoção apagada com sucesso'
+  	redirect_to promotions_path
   end
 
   private

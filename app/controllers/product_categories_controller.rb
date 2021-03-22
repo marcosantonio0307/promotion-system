@@ -15,8 +15,7 @@ class ProductCategoriesController < ApplicationController
   def create
   	@product_category = ProductCategory.new product_category_params
   	if @product_category.save
-  	  flash[:notice] = 'Categoria criada com sucesso'
-  	  redirect_to @product_category
+  	  redirect_to @product_category, notice: 'Categoria criada com sucesso'
   	else
   	  render :new
   	end
@@ -27,8 +26,7 @@ class ProductCategoriesController < ApplicationController
 
   def update
   	if @product_category.update product_category_params
-  	  flash[:notice] = 'Categoria editada com sucesso'
-  	  redirect_to @product_category
+  	  redirect_to @product_category, notice: 'Categoria editada com sucesso'
   	else
   	  render :edit
   	end
@@ -36,8 +34,7 @@ class ProductCategoriesController < ApplicationController
 
   def destroy
   	@product_category.destroy!
-  	flash[:notice] = 'Categoria apagada com sucesso'
-  	redirect_to product_categories_path
+  	redirect_to product_categories_path, notice: 'Categoria apagada com sucesso'
   end
 
   private

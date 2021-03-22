@@ -5,8 +5,17 @@ class Promotion < ApplicationRecord
   has_many :coupons
 
   def generate_coupons
-  	(1..coupon_quantity).each do |number|
-      Coupon.create!(code: "#{code}-#{'%04d' % number}", promotion: self)
-  	end
+  	return if coupons.any?
+    Coupon.transaction do
+      (1..coupon_quantity).each do |number|
+        self.coupons.create!(code: "#{code}-#{'%04d' % number}")
+      end
+    end
+  end
+
+  # TODO: adicionar validação de data de expiração
+  # TODO: fazer teste para este método e impantar
+  def coupons?
+  	coupons.any?
   end
 end

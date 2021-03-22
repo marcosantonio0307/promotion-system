@@ -20,22 +20,18 @@ class PromotionsController < ApplicationController
 
   def generate_coupons
   	@promotion.generate_coupons
-
-  	flash[:notice] = 'Cupons gerados com sucesso'
-  	redirect_to @promotion
+  	redirect_to @promotion, notice: 'Cupons gerados com sucesso'
   end
 
   def edit
   	if @promotion.coupons.any?
-  	  flash[:notice] = 'Não é possivel editar promoção com cupons gerados'
-  	  redirect_to @promotion
+  	  redirect_to @promotion, notice: 'Não é possivel editar promoção com cupons gerados'
   	end
   end
 
   def update
   	if @promotion.update promotion_params
-  	  flash[:notice] = 'Promoção editada com sucesso'
-  	  redirect_to @promotion
+  	  redirect_to @promotion, notice: 'Promoção editada com sucesso'
   	else
       render :edit
   	end
@@ -46,8 +42,7 @@ class PromotionsController < ApplicationController
 
   def destroy
   	@promotion.destroy!
-  	flash[:notice] = 'Promoção apagada com sucesso'
-  	redirect_to promotions_path
+  	redirect_to promotions_path, notice: 'Promoção apagada com sucesso'
   end
 
   private

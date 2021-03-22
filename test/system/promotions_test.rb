@@ -229,6 +229,7 @@ class PromotionsTest < ApplicationSystemTestCase
     visit promotion_path(promotion)
     click_on 'Apagar promoção'
     
+    assert_current_path promotions_path
     assert_text 'Promoção apagada com sucesso'
     assert_no_link 'Natal'
   end

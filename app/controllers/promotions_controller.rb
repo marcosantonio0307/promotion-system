@@ -1,6 +1,6 @@
 class PromotionsController < ApplicationController
   before_action :set_promotion, only:[:generate_coupons, :show, :edit, :update, :destroy]
-  before_action :promotion_params, only:[:create, :update]
+  
   def index
   	@promotions = Promotion.all
   end

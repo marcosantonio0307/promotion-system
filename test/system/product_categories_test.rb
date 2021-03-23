@@ -1,6 +1,6 @@
 require 'application_system_test_case'
 
-class ProductCategoryTest < ApplicationSystemTestCase
+class ProductCategoriesTest < ApplicationSystemTestCase
   test 'view product categories' do
     ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
     ProductCategory.create!(name: 'Software de Gestão', code: 'SWGESTAO')
@@ -76,7 +76,7 @@ class ProductCategoryTest < ApplicationSystemTestCase
   	fill_in 'Código', with: 'ANTIV'
   	click_on 'Salvar'
 
-  	assert_text 'deve ser unico'
+  	assert_text 'já está em uso'
   end
 
   test 'edit product category and correct attributes' do
@@ -112,7 +112,7 @@ class ProductCategoryTest < ApplicationSystemTestCase
   	fill_in 'Código', with: 'ANTIV'
   	click_on 'Salvar'
 
-  	assert_text 'deve ser unico'
+  	assert_text 'já está em uso'
   end
 
   test 'delete product category' do

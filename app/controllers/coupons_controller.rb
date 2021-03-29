@@ -1,4 +1,5 @@
 class CouponsController < ApplicationController
+  before_action :authenticate_user!
   def disable
   	@coupon = Coupon.find(params[:id])
   	@coupon.disabled!

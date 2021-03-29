@@ -5,6 +5,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
     ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
     ProductCategory.create!(name: 'Software de Gestão', code: 'SWGESTAO')
 
+    login_user
     visit root_path
     click_on 'Categorias de Produtos'
 
@@ -16,6 +17,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   	ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
     ProductCategory.create!(name: 'Software de Gestão', code: 'SWGESTAO')
 
+    login_user
     visit product_categories_path
     click_on 'Antivirus'
 
@@ -24,12 +26,14 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   end
 
   test 'no product categories avaliable' do
+    login_user
   	visit product_categories_path
 
   	assert_text 'Nenhuma categoria de produto cadastrada'
   end
 
   test 'view product categories and return to home page' do
+    login_user
   	visit product_categories_path
   	click_on 'Voltar'
 
@@ -39,6 +43,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   test 'view datails and return to product categories page' do
   	ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
 
+    login_user
   	visit product_categories_path
   	click_on 'Antivirus'
   	click_on 'Voltar'
@@ -47,6 +52,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   end
 
   test 'create product category' do
+    login_user
   	visit product_categories_path
   	click_on 'Registrar categoria de produto'
   	fill_in 'Nome', with: 'Antivirus'
@@ -60,6 +66,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   end
 
   test 'create product category and attributes cannot be blank' do
+    login_user
   	visit new_product_category_path
   	fill_in 'Nome', with: ''
   	fill_in 'Código', with: ''
@@ -71,6 +78,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   test 'create product category and code must be unique' do
   	ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
 
+    login_user
   	visit new_product_category_path
   	fill_in 'Nome', with: 'Antivirus'
   	fill_in 'Código', with: 'ANTIV'
@@ -82,6 +90,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   test 'edit product category and correct attributes' do
   	product_category = ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
 
+    login_user
   	visit product_category_path(product_category)
   	click_on 'Editar'
   	fill_in 'Nome', with: 'Antivirus especiais'
@@ -96,6 +105,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   test 'edit and attributes cannot be blank' do
   	product_category = ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
 
+    login_user
   	visit edit_product_category_path(product_category)
   	fill_in 'Nome', with: ''
   	fill_in 'Código', with: ''
@@ -108,6 +118,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
   	ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
   	product_category = ProductCategory.create!(name: 'Antivirus especiais', code: 'ANTIVESP')
 
+    login_user
   	visit edit_product_category_path(product_category)
   	fill_in 'Código', with: 'ANTIV'
   	click_on 'Salvar'
@@ -119,6 +130,7 @@ class ProductCategoriesTest < ApplicationSystemTestCase
     ProductCategory.create!(name: 'Software de Gestão', code: 'SWGESTAO')
   	product_category = ProductCategory.create!(name: 'Antivirus', code: 'ANTIV')
     
+    login_user   
   	visit product_category_path(product_category)
   	click_on 'Apagar categoria'
 

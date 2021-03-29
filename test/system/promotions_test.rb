@@ -252,4 +252,22 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text 'Promoção apagada com sucesso'
     assert_no_link 'Natal'
   end
+
+  test 'do not view promotion without login' do
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    visit promotion_path(promotion)
+
+    assert_current_path new_user_session_path
+  end
+
+  test 'can not create promotion without login' do
+    visit new_promotion_path
+
+    assert_current_path new_user_session_path
+  end
 end

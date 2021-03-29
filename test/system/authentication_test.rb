@@ -52,4 +52,10 @@ class AuthenticationTest < ApplicationSystemTestCase
 
   	assert_current_path new_user_session_path
   end
+
+  test 'do not view product category using route without login' do
+  	visit product_categories_path
+
+  	assert_current_path new_user_session_path
+  end
 end

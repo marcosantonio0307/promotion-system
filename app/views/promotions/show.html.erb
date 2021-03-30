@@ -4,6 +4,11 @@
   <%= link_to 'Gerar cupons', generate_coupons_promotion_path(@promotion), method: :post %>
 <% end %>
 <%= link_to 'Apagar promoção', @promotion, method: :delete %>
+<% if @promotion.approved? %>
+  <p>Aprovada por <%= @promotion.promotion_approval.user.email %></p>
+<% else %>
+  <%= link_to 'Aprovar', approve_promotion_path(@promotion), method: :post, data:{confirm: 'Aprovar promoção?'} %>
+<% end %>
 
 <div>
   <p><%= @promotion.name %></p>

@@ -14,10 +14,11 @@ class Promotion < ApplicationRecord
   end
 
   # TODO: adicionar validação de data de expiração
-  # TODO: fazer teste para este método e impantar
-  # TODO: cnonfigurar i18n manual
-  # TODO: colocar flash no layout
   def coupons?
   	coupons.any?
+  end
+
+  def self.search(query)
+    where('name LIKE ?', "%#{query}%")
   end
 end

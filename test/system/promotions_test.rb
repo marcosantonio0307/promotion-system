@@ -270,4 +270,49 @@ class PromotionsTest < ApplicationSystemTestCase
 
     assert_current_path new_user_session_path
   end
+
+  test 'search promotions by term and finds results' do
+    christmas = Promotion.create(name: 'Natal', description: 'Promoção de Natal',
+                                 code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
+                                 expiration_date: '22/12/2033')
+    christmassy = Promotion.create(name: 'Natalina', description: 'Promoção de Natal',
+                                 code: 'NATAL20', discount_rate: 10, coupon_quantity: 100,
+                                 expiration_date: '22/12/2033')
+    cyber_monday = Promotion.create(name: 'Cyber Monday', description: 'Promoção Cyber Monday',
+                                 code: 'CYBER15', discount_rate: 10, coupon_quantity: 100,
+                                 expiration_date: '22/12/2033')
+
+    login_user
+    visit root_path
+    click_on 'Promoções'
+    fill_in 'Busca', with: 'natal'
+    click_on 'Buscar'
+
+    assert_text 'Resultados encontrados para a busca'
+    assert_link 'Voltar'
+    assert_text christmas.name
+    assert_text christmassy.name
+    assert_no_text cyber_monday.name
+  end
+
+  test 'not results' do
+    christmas = Promotion.create(name: 'Natal', description: 'Promoção de Natal',
+                                 code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
+                                 expiration_date: '22/12/2033')
+
+    login_user
+    visit root_path
+    click_on 'Promoções'
+    fill_in 'Busca', with: 'Cyber'
+    click_on 'Buscar'
+
+    assert_text 'Nenhuma promoção encontrada'
+    assert_no_text christmas.name
+  end
+
+  test 'can not search without login' do
+    visit search_promotions_path
+
+    assert_current_path new_user_session_path
+  end
 end

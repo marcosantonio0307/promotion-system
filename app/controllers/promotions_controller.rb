@@ -41,6 +41,16 @@ class PromotionsController < ApplicationController
   def show
   end
 
+  def search
+    @promotions = Promotion.search(params[:search])
+    if @promotions.any?
+      flash[:notice] = 'Resultados encontrados para a busca'
+    else
+      flash[:notice] = 'Nenhuma promoção encontrada'
+    end
+    render :index
+  end
+
   def destroy
   	@promotion.destroy!
   	redirect_to promotions_path, notice: 'Promoção apagada com sucesso'

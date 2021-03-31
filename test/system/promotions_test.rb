@@ -333,7 +333,17 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_no_link 'Aprovar'
   end
 
+  test 'user does not approve of your promotions' do
+    user = login_user
+    christmas = Promotion.create(name: 'Natal', description: 'Promoção de Natal',
+                                 code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
+                                 expiration_date: '22/12/2033', user: user)
 
-  #TODO: mudar busca para pagina propria e usar partial de collection
-  #TODO: resolver testes quebrando depois do user
+    visit promotion_path(christmas)
+    accept_confirm { click_on 'Aprovar'}
+
+    assert_text 'Não é possível aprovar as próprias promoções'
+    assert_link 'Aprovar'
+    assert_current_path promotion_path(christmas)
+  end
 end

@@ -52,6 +52,9 @@ class PromotionsController < ApplicationController
   end
 
   def approve
+    if @promotion.user == current_user
+      return redirect_to @promotion, notice: 'Não é possível aprovar as próprias promoções'
+    end
     PromotionApproval.create!(promotion: @promotion, user: current_user)
     redirect_to @promotion, notice: 'Promoção aprovada com sucesso'
   end

@@ -41,6 +41,16 @@ class AuthenticationTest < ApplicationSystemTestCase
   	assert_no_link 'Entrar'	
   end
 
+  test 'user sign out' do
+    login_user
+
+    visit promotions_path
+    click_on 'Sair'
+
+    assert_current_path root_path
+    assert_link 'Entrar'
+  end
+
   test 'do not view promotion link without login' do
  	visit root_path
 

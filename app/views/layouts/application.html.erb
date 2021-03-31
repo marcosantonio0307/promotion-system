@@ -16,7 +16,7 @@
         <%= current_user.email %>
         <%= link_to 'Promoções', promotions_path %>
         <%= link_to 'Categorias de Produtos', product_categories_path %>
-        <%= link_to 'Sair', '#' %>
+        <%= link_to 'Sair', destroy_user_session_path, method: :delete %>
       <% else %>
         <%= link_to 'Cadastrar usuário', new_user_registration_path %>
         <%= link_to 'Entrar', new_user_session_path %>

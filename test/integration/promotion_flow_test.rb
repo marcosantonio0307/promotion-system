@@ -33,4 +33,14 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
 
   	assert_redirected_to new_user_session_path
   end
+
+  test 'can not approve a promotion without login' do
+    user = User.create!(email: 'marcos@iugu.com', password: '123456')
+    christmas = Promotion.create(name: 'Natal', description: 'Promoção de Natal',
+                                 code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
+                                 expiration_date: '22/12/2033', user: user)
+    post approve_promotion_path(christmas)
+
+    assert_redirected_to new_user_session_path
+  end
 end

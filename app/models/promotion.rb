@@ -5,6 +5,7 @@ class Promotion < ApplicationRecord
   validates :code, :name, uniqueness: true
   has_many :coupons
   has_one :promotion_approval
+  has_one :approver, through: :promotion_approval, source: :user
 
   def generate_coupons
   	return if coupons.any?
@@ -26,5 +27,9 @@ class Promotion < ApplicationRecord
 
   def approved?
     promotion_approval.present?
+  end
+
+  def can_approve?(current_user)
+    user != current_user
   end
 end

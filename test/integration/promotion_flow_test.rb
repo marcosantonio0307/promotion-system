@@ -43,4 +43,15 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to new_user_session_path
   end
+
+  test 'user can not approve your promotions' do
+    user = login_user
+    christmas = Promotion.create(name: 'Natal', description: 'Promoção de Natal',
+                                 code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
+                                 expiration_date: '22/12/2033', user: user)
+    post approve_promotion_path(christmas)
+    assert_redirected_to promotion_path(christmas)
+    refute christmas.reload.approved?
+    assert_equal 'Não é possível aprovar as próprias promoções', flash[:notice]
+  end
 end

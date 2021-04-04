@@ -16,7 +16,6 @@ class AuthenticationTest < ApplicationSystemTestCase
   	assert_current_path root_path
   	#validar qualidade da senha
   	#captcha
-  	#TODO: teste de sair
   	#TODO: testar erros de cadastro
   	#TODO: testar erros de entrar
   	#TODO: recuperar senha

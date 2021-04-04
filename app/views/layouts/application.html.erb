@@ -23,7 +23,9 @@
       <% end %>
     </nav>
     <% if flash[:notice] %>
-      <%= flash[:notice] %>
+      <div id="alert-notice">
+        <%= flash[:notice] %>
+      </div>
     <% end %>
     <%= yield %>
   </body>

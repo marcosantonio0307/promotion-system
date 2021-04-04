@@ -139,7 +139,9 @@ class PromotionsTest < ApplicationSystemTestCase
                                   code: 'NATAL10', discount_rate: 10,
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033', user: user)
-
+    promotion.create_promotion_approval(
+      user: User.create!(email: 'gerson@iugu.com.br', password: '123456')
+    )
     
     visit promotion_path(promotion)
     click_on 'Gerar cupons'
@@ -166,6 +168,9 @@ class PromotionsTest < ApplicationSystemTestCase
                                   code: 'NATAL10', discount_rate: 10,
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033', user: user)
+    promotion.create_promotion_approval(
+      user: User.create!(email: 'gerson@iugu.com.br', password: '123456')
+    )
 
     visit promotion_path(promotion)
     assert_link 'Gerar cupons'
@@ -191,6 +196,9 @@ class PromotionsTest < ApplicationSystemTestCase
                                   code: 'NATAL10', discount_rate: 10,
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033', user: user)
+    promotion.create_promotion_approval(
+      user: User.create!(email: 'gerson@iugu.com.br', password: '123456')
+    )
 
     visit promotion_path(promotion)
     assert_link 'Gerar cupons'
@@ -209,6 +217,9 @@ class PromotionsTest < ApplicationSystemTestCase
                                   code: 'NATAL10', discount_rate: 10,
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033', user: user)
+    promotion.create_promotion_approval(
+      user: User.create!(email: 'gerson@iugu.com.br', password: '123456')
+    )
 
     visit promotion_path(promotion)
     assert_link 'Gerar cupons'
@@ -230,6 +241,9 @@ class PromotionsTest < ApplicationSystemTestCase
                                   code: 'NATAL10', discount_rate: 10,
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033', user: user)
+    promotion.create_promotion_approval(
+      user: User.create!(email: 'gerson@iugu.com.br', password: '123456')
+    )
 
     visit promotion_path(promotion)
     click_on 'Gerar cupons'
@@ -340,10 +354,10 @@ class PromotionsTest < ApplicationSystemTestCase
                                  expiration_date: '22/12/2033', user: user)
 
     visit promotion_path(christmas)
-    accept_confirm { click_on 'Aprovar'}
 
-    assert_text 'Não é possível aprovar as próprias promoções'
-    assert_link 'Aprovar'
-    assert_current_path promotion_path(christmas)
+    assert_no_link 'Aprovar'
   end
+
+  #TODO: nao pode gerar cupons sem aprovar a promoção
+  #TODO: mudar can_approve para o model user
 end

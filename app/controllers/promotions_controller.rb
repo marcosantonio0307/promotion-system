@@ -1,7 +1,8 @@
 class PromotionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_promotion, only:[:generate_coupons, :show, :edit, :update, :approve, :destroy]
-  
+  before_action :set_promotion, only:[:generate_coupons, :show, :edit, :update, 
+                                      :approve, :destroy]
+  before_action :can_be_approved, only:[:approve]
   def index
   	@promotions = Promotion.all
   end
@@ -52,10 +53,7 @@ class PromotionsController < ApplicationController
   end
 
   def approve
-    if @promotion.user == current_user
-      return redirect_to @promotion, notice: 'Não é possível aprovar as próprias promoções'
-    end
-    PromotionApproval.create!(promotion: @promotion, user: current_user)
+    current_user.promotion_approvals.create!(promotion: @promotion)
     redirect_to @promotion, notice: 'Promoção aprovada com sucesso'
   end
 
@@ -73,5 +71,10 @@ class PromotionsController < ApplicationController
 
     def set_promotion
       @promotion = Promotion.find(params[:id])
+    end
+
+    def can_be_approved
+      redirect_to @promotion,
+      notice: 'Não é possível aprovar as próprias promoções' unless @promotion.can_approve?(current_user)
     end
 end

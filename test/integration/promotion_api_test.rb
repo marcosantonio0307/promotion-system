@@ -62,6 +62,19 @@ class PromotionApiTest < ActionDispatch::IntegrationTest
     assert_includes response.parsed_body['code'], 'já está em uso'
   end
 
+  test 'edit promotion' do
+  	user = User.create!(email: 'marcos@iugu.com.br', password: '123456')
+    promotion = Promotion.create!(name: 'Natal', description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
+                     			  expiration_date: '22/12/2033',user: user)
+    patch "/api/v1/promotions/#{promotion.id}", params: {promotion: {code: 'NATAL20', coupon_quantity: 40, discount_rate: 20}}
+
+    assert_response :success
+    assert_equal 'NATAL20', response.parsed_body['code']
+    assert_equal 40, response.parsed_body['coupon_quantity'].to_i
+    assert_equal 20, response.parsed_body['discount_rate'].to_i
+  end
+
   test 'show coupon disabled' do
     user = User.create!(email: 'marcos@iugu.com.br', password: '123456')
     promotion = Promotion.create!(name: 'Natal',

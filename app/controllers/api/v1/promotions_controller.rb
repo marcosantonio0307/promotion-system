@@ -8,6 +8,13 @@ class Api::V1::PromotionsController < Api::V1::ApiController
   	end
   end
 
+  def update
+  	@promotion = Promotion.find(params[:id])
+  	if @promotion.update promotion_params
+  	  render json: @promotion
+  	end
+  end
+
   private
     def promotion_params
       params.require(:promotion).permit(:name, :description, :code, 

@@ -54,6 +54,7 @@ class PromotionsController < ApplicationController
 
   def approve
     current_user.promotion_approvals.create!(promotion: @promotion)
+    PromotionMailer.approval_email(@promotion, current_user).deliver_now
     redirect_to @promotion, notice: 'Promoção aprovada com sucesso'
   end
 

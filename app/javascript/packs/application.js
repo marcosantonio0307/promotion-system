@@ -5,6 +5,11 @@
 
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
+import * as bootstrap from 'bootstrap'
+
+document.addEventListener('DOMContentLoaded', function(event){
+
+})
 
 Rails.start()
 Turbolinks.start()

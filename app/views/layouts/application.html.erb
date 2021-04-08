@@ -19,7 +19,7 @@
         <%= link_to 'Sair', destroy_user_session_path, method: :delete %>
       <% else %>
         <%= link_to 'Cadastrar usuário', new_user_registration_path %>
-        <%= link_to 'Entrar', new_user_session_path %>
+        <%= link_to 'Entrar', new_user_session_path, class: 'btn btn-success' %>
       <% end %>
     </nav>
     <% if flash[:notice] %>

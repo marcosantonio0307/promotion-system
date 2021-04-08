@@ -1,7 +1,7 @@
 <%=  link_to 'Voltar', root_path %>
 <%= link_to 'Registrar uma promoção', new_promotion_path %>
 
-<%= form_with url: search_promotions_path, method: :get do |f| %>
+<%= form_with url: search_promotions_path, id: 'search-promotion', method: :get, local: false do |f| %>
   <div>
     <%= f.label :search, 'Busca' %>
     <%= f.text_field :search %>
@@ -12,14 +12,30 @@
 <% if @promotions.empty? %>
   <p>Nenhuma promoção cadastrada</p>
 <% end %>
-<% @promotions.each do |promotion| %>
-  <div>
-    <p><%= link_to promotion.name, promotion %></p>
-    <dl>
-  	  <dt>Descrição</dt>
-  	  <dd><%= promotion.description %></dd>
-  	  <dt>Desconto</dt>
-  	  <dd><%= number_to_percentage promotion.discount_rate, precision: 2, separator: ',' %></dd>
-    </dl>
-  </div> 
-<% end %>
+<div>
+  <% @promotions.each do |promotion| %>
+    <div id="promotions">
+      <p><%= link_to promotion.name, promotion %></p>
+      <dl>
+    	  <dt>Descrição</dt>
+    	  <dd><%= promotion.description %></dd>
+    	  <dt>Desconto</dt>
+    	  <dd><%= number_to_percentage promotion.discount_rate, precision: 2, separator: ',' %></dd>
+      </dl>
+    </div> 
+  <% end %>
+</div>
+
+<script>
+  var searchForm = document.querySelector('#search-promotion')
+  var promotionDiv = document.querySelector('#promotions')
+
+  searchForm.addEventListener('ajax:success', (event) => {
+    const [_data, _status, xhr] = event.detail
+    const promotions = JSON.parse(xhr.response)
+    promotionDiv.innerHTML = ''
+    promotions.forEach((promotion) => {
+      promotionDiv.insertAdjacentHTML("beforeend", promotion.code)
+    })
+  })
+</script>

@@ -49,7 +49,7 @@ class PromotionsController < ApplicationController
     else
       flash[:notice] = 'Nenhuma promoção encontrada'
     end
-    render :index
+    render json: @promotions
   end
 
   def approve

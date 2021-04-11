@@ -12,9 +12,9 @@
 <% if @promotions.empty? %>
   <p>Nenhuma promoção cadastrada</p>
 <% end %>
-<div>
+<div id="promotions">
   <% @promotions.each do |promotion| %>
-    <div id="promotions">
+    <div>
       <p><%= link_to promotion.name, promotion %></p>
       <dl>
     	  <dt>Descrição</dt>
@@ -35,7 +35,7 @@
     const promotions = JSON.parse(xhr.response)
     promotionDiv.innerHTML = ''
     promotions.forEach((promotion) => {
-      promotionDiv.insertAdjacentHTML("beforeend", promotion.code)
+      promotionDiv.insertAdjacentHTML("beforeend", promotion.name)
     })
   })
 </script>

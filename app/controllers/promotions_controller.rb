@@ -44,14 +44,10 @@ class PromotionsController < ApplicationController
 
   def search
     @promotions = Promotion.search(params[:search])
-    if @promotions.any?
-      flash[:notice] = 'Resultados encontrados para a busca'
-    else
-      flash[:notice] = 'Nenhuma promoção encontrada'
-    end
+
     render json: @promotions
   end
-
+  
   def approve
     current_user.promotion_approvals.create!(promotion: @promotion)
     PromotionMailer.approval_email(@promotion, current_user).deliver_now

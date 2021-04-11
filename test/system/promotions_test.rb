@@ -304,7 +304,6 @@ class PromotionsTest < ApplicationSystemTestCase
     fill_in 'Busca', with: 'natal'
     click_on 'Buscar'
 
-    assert_text 'Resultados encontrados para a busca'
     assert_link 'Voltar'
     assert_text christmas.name
     assert_text christmassy.name
@@ -322,7 +321,6 @@ class PromotionsTest < ApplicationSystemTestCase
     fill_in 'Busca', with: 'Cyber'
     click_on 'Buscar'
 
-    assert_text 'Nenhuma promoção encontrada'
     assert_no_text christmas.name
   end
 

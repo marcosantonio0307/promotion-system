@@ -69,19 +69,6 @@ class PromotionApiTest < ActionDispatch::IntegrationTest
     assert_equal 20, response.parsed_body['discount_rate'].to_i
   end
 
-  test 'show coupon disabled' do
-    user = User.create!(email: 'marcos@iugu.com.br', password: '123456')
-    promotion = Promotion.create!(name: 'Natal',
-                                  description: 'Promoção de Natal',
-                                  code: 'NATAL10', discount_rate: 10,
-                                  coupon_quantity: 100,
-                                  expiration_date: '22/12/2033', user: user)
-    coupon = Coupon.create!(code: 'NATAL10-0001', promotion: promotion, status: 'disabled')
-    get "/api/v1/coupons/#{coupon.code}"
-
-    assert_response :not_found
-  end
-
   test 'delete promotion' do
     promotion = Fabricate(:promotion)
 

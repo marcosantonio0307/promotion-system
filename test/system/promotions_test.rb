@@ -156,6 +156,16 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_link 'Desabilitar', count: promotion.coupon_quantity
   end
 
+  test 'can not generate coupons without approve the promotion' do
+    user = Fabricate(:user)
+    promotion = Fabricate(:promotion, user: user)
+    login_user
+
+    visit promotion_path(promotion)
+
+    refute_link 'Gerar cupons'
+  end
+
   test 'edit promotion with correct attributes' do
     user = login_user
     Promotion.create!(name: 'Cyber Monday',
@@ -356,7 +366,4 @@ class PromotionsTest < ApplicationSystemTestCase
 
     assert_no_link 'Aprovar'
   end
-
-  #TODO: nao pode gerar cupons sem aprovar a promoção
-  #TODO: mudar can_approve para o model user
 end

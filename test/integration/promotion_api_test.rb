@@ -82,7 +82,15 @@ class PromotionApiTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  #TODO: terminar crud para promotion via API
+  test 'delete promotion' do
+    promotion = Fabricate(:promotion)
+
+    delete "/api/v1/promotions/#{promotion.id}"
+    
+    assert_response :success
+    assert_equal 'Promoção apagada com sucesso', response.parsed_body['notice']
+  end
+
   #TODO: queimar cupom via API
   #get 200
   #created: 201

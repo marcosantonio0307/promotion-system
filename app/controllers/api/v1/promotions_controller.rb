@@ -15,6 +15,12 @@ class Api::V1::PromotionsController < Api::V1::ApiController
   	end
   end
 
+  def destroy
+    @promotion = Promotion.find(params[:id])
+    @promotion.destroy
+    render json: {notice: 'Promoção apagada com sucesso'}
+  end
+
   private
     def promotion_params
       params.require(:promotion).permit(:name, :description, :code, 

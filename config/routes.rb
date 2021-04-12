@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   namespace :api do
   	namespace :v1 do
-  	  resources :promotions, only: [:create, :update]
+  	  resources :promotions, only: [:create, :update, :destroy]
   	  resources :coupons, only: [:show], param: :code
   	end
   end
